@@ -3,4 +3,4 @@ import { globalInit } from "./global/globalInit.js";
 
 globalInit();
 initPageRouter();
-console.log("Hello, Vite!");
+console.log("Hello, Pupsik!");
