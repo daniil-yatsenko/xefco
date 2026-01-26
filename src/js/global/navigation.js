@@ -8,17 +8,21 @@ const navbar = {
   isMenuOpen: false,
   // eventListenersMap: new WeakMap(),
 
-  openMenu(immediate = false) {
+  async openMenu(immediate = false) {
     const tl = gsap.timeline();
+    tl.set(this.menuBody, { height: "0rem", overflow: "hidden" });
     tl.set(this.menuBody, { display: "block" });
+    tl.to(this.menuBody, { height: "auto", duration: 0.4, ease: "expo.inOut" });
 
     this.isMenuOpen = true;
     this.menuBtn.setAttribute("aria-expanded", true);
     this.menuBtn.setAttribute("aria-label", "Close menu");
     return tl;
   },
-  closeMenu(immediate = false) {
+  async closeMenu(immediate = false) {
     const tl = gsap.timeline();
+    tl.to(this.menuBody, { height: "0rem", duration: 0.4, ease: "expo.inOut" });
+    tl.set(this.menuBody, { height: "auto" });
     tl.set(this.menuBody, { display: "none" });
 
     this.isMenuOpen = false;
@@ -26,12 +30,12 @@ const navbar = {
     this.menuBtn.setAttribute("aria-label", "Open menu");
     return tl;
   },
-  handleMenuClick() {
-    this.menuBtn.addEventListener("click", () => {
+  async handleMenuClick() {
+    this.menuBtn.addEventListener("click", async () => {
       if (this.isMenuOpen) {
-        this.closeMenu();
+        await this.closeMenu();
       } else {
-        this.openMenu();
+        await this.openMenu();
       }
     });
   },

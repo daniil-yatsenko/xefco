@@ -2,6 +2,7 @@ import barba from "@barba/core";
 import gsap from "gsap";
 import { homeInit, homeCleanup } from "../pages/home.js";
 import { lenisMain } from "./globalInit.js";
+import { navbar } from "./navigation.js";
 
 export function initBarba() {
   barba.init({
@@ -9,16 +10,23 @@ export function initBarba() {
     transitions: [
       {
         name: "default-transition",
-        leave(data) {
-          // Animate out
-          return new Promise((resolve) => {
-            gsap.to(data.current.container, {
-              opacity: 0,
-              duration: 0.3,
-              ease: "power2.inOut",
-            });
-            resolve();
+        async leave(data) {
+          // Close menu first, wait for animation to complete
+          await navbar.closeMenu();
+
+          // Then animate out the page
+          const tl = gsap.timeline();
+          tl.to(data.current.container, {
+            opacity: 0,
+            duration: 0.3,
+            ease: "power2.inOut",
           });
+
+          return tl;
+        },
+        afterLeave() {
+          console.log("after leave");
+          lenisMain.scrollTo(0, { immediate: true });
         },
         enter(data) {
           // Animate in
