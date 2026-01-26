@@ -1,12 +1,12 @@
-// import { navbar } from "./navigation";
-// import { lenisInit } from "./lenis.js";
+import { navbar } from "./navigation";
+import { lenisInit } from "./lenis.js";
 // import { componentsInit } from "../components/index";
 
-// var lenisMain = lenisInit();
-// export { lenisMain };
+var lenisMain = lenisInit();
+export { lenisMain };
 
 const globalInit = async () => {
-  //   navbar.init();
+  navbar.init();
   //   componentsInit(document);
   console.log("globalInit");
 };

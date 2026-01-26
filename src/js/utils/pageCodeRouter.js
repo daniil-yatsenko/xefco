@@ -1,3 +1,5 @@
+// **obsolete in this project; replaced by Barba.**
+
 // Initializes page-specific animations based on the data-page-name attribute.
 // Ensure the main page wrapper has a unique class with data-page-name attribute
 // to avoid animation code leakage across different pages.

@@ -3,23 +3,27 @@ import { gsap } from "gsap";
 
 const navbar = {
   navbarEl: document.querySelector(".navbar"),
-  navLinks: document.querySelectorAll(".navbar_nav-link"),
-  selector: document.querySelector(".navbar_page-selector"),
-  menuBtn: document.querySelector(".navbar_menu-button"),
-  linksWrapper: document.querySelector(".navbar_menu-wrapper"),
-  overlay: document.querySelector(".navbar_overlay"),
-  figure: document.querySelector(".navbar_overlay_figure-wrapper"),
+  menuBtn: document.querySelector('[aria-controls="navbar"]'),
+  menuBody: document.querySelector(".navbar_body-wrapper"),
   isMenuOpen: false,
-  isNavbarHidden: false,
-  isSetToMobile: false,
-  eventListenersMap: new WeakMap(),
+  // eventListenersMap: new WeakMap(),
 
   openMenu(immediate = false) {
     const tl = gsap.timeline();
+    tl.set(this.menuBody, { display: "block" });
+
+    this.isMenuOpen = true;
+    this.menuBtn.setAttribute("aria-expanded", true);
+    this.menuBtn.setAttribute("aria-label", "Close menu");
     return tl;
   },
   closeMenu(immediate = false) {
     const tl = gsap.timeline();
+    tl.set(this.menuBody, { display: "none" });
+
+    this.isMenuOpen = false;
+    this.menuBtn.setAttribute("aria-expanded", false);
+    this.menuBtn.setAttribute("aria-label", "Open menu");
     return tl;
   },
   handleMenuClick() {
@@ -29,9 +33,6 @@ const navbar = {
       } else {
         this.openMenu();
       }
-    });
-    this.overlay.addEventListener("click", () => {
-      this.closeMenu();
     });
   },
   hide(immediate = false) {
@@ -63,7 +64,6 @@ const navbar = {
     if (window.innerWidth < 768) {
       this.isSetToMobile = true;
     }
-    this.resizeListener();
     this.handleMenuClick();
   },
 };
