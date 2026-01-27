@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { homeInit, homeCleanup } from "../pages/home.js";
 import { lenisMain } from "./globalInit.js";
 import { navbar } from "./navigation.js";
+import { componentsInit, componentsCleanup } from "../components/index.js";
 
 export function initBarba() {
   barba.init({
@@ -24,11 +25,14 @@ export function initBarba() {
 
           return tl;
         },
-        afterLeave() {
+        afterLeave(data) {
           console.log("after leave");
+          componentsCleanup(data.current.container);
           lenisMain.scrollTo(0, { immediate: true });
         },
         enter(data) {
+          componentsInit(data.next.container);
+
           // Animate in
           return new Promise((resolve) => {
             gsap.from(data.next.container, {
