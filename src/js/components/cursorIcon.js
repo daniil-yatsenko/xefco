@@ -42,7 +42,12 @@ const cursorIconInit = (page = document) => {
 
       gsap.set(cursor, { display: "block", x: x, y: y });
       gsap.to(cursor, { opacity: 1, duration: 0.2 });
-      gsap.to(logo, { scale: 1.02, duration: 0.2 });
+
+      // Reset logo position immediately (magnetic effect)
+      if (logo) {
+        gsap.killTweensOf(logo);
+        gsap.set(logo, { x: "0em", y: "0em", rotate: "0.001deg" });
+      }
     };
 
     // Mouse move handler
@@ -61,6 +66,24 @@ const cursorIconInit = (page = document) => {
         duration: 0.3,
         ease: "power2.out",
       });
+
+      // Magnetic effect on logo
+      if (logo) {
+        const strength =
+          parseFloat(frame.getAttribute("data-magnetic-strength")) || 25;
+        const offsetX =
+          ((e.clientX - rect.left) / frame.offsetWidth - 0.5) * (strength / 16);
+        const offsetY =
+          ((e.clientY - rect.top) / frame.offsetHeight - 0.5) * (strength / 16);
+
+        gsap.to(logo, {
+          x: offsetX + "em",
+          y: offsetY + "em",
+          rotate: "0.001deg",
+          ease: "power4.out",
+          duration: 1.6,
+        });
+      }
     };
 
     // Mouse leave handler
@@ -70,10 +93,20 @@ const cursorIconInit = (page = document) => {
         opacity: 0,
         duration: 0.2,
         onComplete: () => {
-          gsap.to(logo, { scale: 1, duration: 0.2 });
           gsap.set(cursor, { display: "none" });
         },
       });
+
+      // Reset logo with elastic bounce (magnetic effect)
+      if (logo) {
+        gsap.to(logo, {
+          x: "0em",
+          y: "0em",
+          ease: "elastic.out(1, 0.3)",
+          duration: 1.6,
+          clearProps: "all",
+        });
+      }
     };
 
     // Attach listeners with AbortController for easy cleanup
@@ -93,6 +126,9 @@ const cursorIconCleanup = (page = document) => {
     const cursor = frame.querySelector(
       ".xe-brands_cursor, [data-cursor-icon-cursor]",
     );
+    const logo = frame.querySelector(
+      ".xe-brands_logo-wrapper, [data-cursor-icon-logo]",
+    );
 
     if (!cursor) return;
 
@@ -105,8 +141,16 @@ const cursorIconCleanup = (page = document) => {
       delete cursor._cursorIconAbortController;
     }
 
-    // Kill all GSAP animations on this cursor
+    // Kill all GSAP animations on cursor and logo
     gsap.killTweensOf(cursor);
+    if (logo) {
+      gsap.killTweensOf(logo);
+      gsap.set(logo, {
+        x: 0,
+        y: 0,
+        clearProps: "all",
+      });
+    }
 
     // Reset cursor state
     gsap.set(cursor, {
