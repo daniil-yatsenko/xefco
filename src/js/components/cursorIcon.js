@@ -42,7 +42,7 @@ const cursorIconInit = (page = document) => {
 
       gsap.set(cursor, { display: "block", x: x, y: y });
       gsap.to(cursor, { opacity: 1, duration: 0.2 });
-      gsap.to(logo, { scale: 1.03, duration: 0.3, ease: "power2.inOut" });
+      gsap.to(logo, { scale: 1.02, duration: 0.2 });
     };
 
     // Mouse move handler
