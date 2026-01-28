@@ -102,8 +102,8 @@ const cursorIconInit = (page = document) => {
         gsap.to(logo, {
           x: "0em",
           y: "0em",
-          ease: "elastic.out(1, 0.3)",
-          duration: 1.6,
+          ease: "elastic.out(1, 0.5)",
+          duration: 1,
           clearProps: "all",
         });
       }
