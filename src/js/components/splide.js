@@ -49,11 +49,25 @@ const splideInit = (page) => {
 
     let splide = new Splide(slider, config);
     splide.mount();
+
+    // Store instance on element for cleanup
+    slider._splideInstance = splide;
   });
   return;
 };
 
 const splideCleanup = (page) => {
+  const sliders = page.querySelectorAll(".splide");
+
+  if (!sliders) return;
+
+  sliders.forEach((slider) => {
+    // Destroy Splide instance if it exists
+    if (slider._splideInstance) {
+      slider._splideInstance.destroy();
+      delete slider._splideInstance;
+    }
+  });
   return;
 };
 
