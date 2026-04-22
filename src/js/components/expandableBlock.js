@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import { lenisMain } from "../global/globalInit";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 const expandableBlockInit = (page = document) => {
   const blocks = page.querySelectorAll("[data-expandable-block]");
@@ -28,6 +29,7 @@ const expandableBlockInit = (page = document) => {
       delay: 0.1,
       onComplete: () => {
         lenisMain.resize();
+        ScrollTrigger.refresh();
       },
     });
 
@@ -59,6 +61,7 @@ const expandableBlockInit = (page = document) => {
 
       state.isExpanded = false;
       lenisMain.resize();
+      ScrollTrigger.refresh();
     };
 
     const expand = () => {
@@ -93,6 +96,7 @@ const expandableBlockInit = (page = document) => {
 
       state.isExpanded = true;
       lenisMain.resize();
+      ScrollTrigger.refresh();
     };
 
     // Toggle click handler
@@ -122,6 +126,9 @@ const expandableBlockInit = (page = document) => {
       });
     }
   });
+
+  lenisMain.resize();
+  ScrollTrigger.refresh();
 };
 
 const expandableBlockCleanup = (page = document) => {
@@ -150,5 +157,3 @@ const expandableBlockCleanup = (page = document) => {
 };
 
 export { expandableBlockInit, expandableBlockCleanup };
-
-// this is a test comment

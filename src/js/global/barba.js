@@ -4,6 +4,7 @@ import { homeInit, homeCleanup } from "../pages/home.js";
 import { lenisMain } from "./globalInit.js";
 import { navbar } from "./navigation.js";
 import { componentsInit, componentsCleanup } from "../components/index.js";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export function initBarba() {
   barba.init({
@@ -45,6 +46,7 @@ export function initBarba() {
         },
         afterEnter() {
           lenisMain.resize();
+          ScrollTrigger.refresh();
         },
       },
     ],
@@ -62,6 +64,62 @@ export function initBarba() {
     ],
   });
 }
+
+// barba x finsweet attributes
+// push all filter instances to FA after page transition, and resize Lenis on filter
+let listRO = null;
+barba.hooks.afterEnter(() => {
+  if (!window.FinsweetAttributes) return;
+
+  window.FinsweetAttributes.push([
+    "list",
+    async () => {
+      await window.FinsweetAttributes.modules.list.restart();
+
+      // Hook Lenis resize to layout changes
+      const listWrapper = document.querySelector('[fs-list-element="list"]');
+      if (listWrapper) {
+        listRO = new ResizeObserver(() => {
+          requestAnimationFrame(() => {
+            lenisMain.resize();
+          });
+        });
+        listRO.observe(listWrapper);
+      }
+    },
+  ]);
+});
+
+barba.hooks.beforeLeave(() => {
+  listRO?.disconnect();
+  listRO = null;
+});
+
+// auto-play all videos and lotties
+barba.hooks.afterEnter((data) => {
+  const videos = data.next.container.querySelectorAll("video");
+  videos.forEach((video) => {
+    video.play();
+  });
+});
+
+// Re-init Webflow interactions, including Lottie animations
+barba.hooks.afterEnter((data) => {
+  // Sync Webflow's page ID to the newly-entered page
+  const parser = new DOMParser();
+  const nextDoc = parser.parseFromString(data.next.html, "text/html");
+  const nextWfPage = nextDoc.documentElement.getAttribute("data-wf-page");
+  if (nextWfPage) {
+    document.documentElement.setAttribute("data-wf-page", nextWfPage);
+  }
+
+  if (window.Webflow) {
+    window.Webflow.destroy();
+    window.Webflow.ready();
+    window.Webflow.require("ix2")?.init();
+    document.dispatchEvent(new Event("readystatechange"));
+  }
+});
 
 // home
 // our-company

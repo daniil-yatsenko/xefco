@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { IMG_SCALE } from "./defaults";
 // import { animateButton } from "../components/buttons";
 
 const navbar = {
@@ -9,10 +10,12 @@ const navbar = {
   menuBody: document.querySelector(".navbar_body-wrapper"),
   menuLinks: document.querySelectorAll(".navbar_body_link"),
   menuCards: document.querySelectorAll(".navbar_body_brand-card-wrapper"),
+  underlay: document.querySelector(".navbar_underlay"),
   isMenuOpen: false,
 
   async openMenu(immediate = false) {
     const tl = gsap.timeline();
+    tl.set(this.underlay, { display: "block" });
     tl.set(this.menuBody, { height: "0rem", overflow: "hidden", opacity: 0 });
     tl.set(this.menuBody, { display: "block" });
     tl.set(this.menuLinks, { opacity: 0, y: "-0.4rem" });
@@ -53,6 +56,7 @@ const navbar = {
   },
   async closeMenu(immediate = false) {
     const tl = gsap.timeline();
+    tl.set(this.underlay, { display: "none" });
     tl.to(this.menuBody, {
       height: "0rem",
       opacity: 0,
@@ -78,12 +82,24 @@ const navbar = {
       }
     });
   },
+  async handleUnderlayClick() {
+    this.underlay.addEventListener("click", async () => {
+      if (this.isMenuOpen) {
+        await this.closeMenu();
+      } else {
+        await this.openMenu();
+      }
+    });
+  },
   cardsOnHover() {
     this.menuCards.forEach((card) => {
       const image = card.querySelector("img");
       const scale = gsap.getProperty(image, "scale");
       card.addEventListener("mouseenter", () => {
-        gsap.to(image, { scale: scale + 0.05, duration: 0.25 });
+        gsap.to(image, {
+          scale: scale + IMG_SCALE.scale,
+          duration: IMG_SCALE.duration,
+        });
       });
       card.addEventListener("mouseleave", () => {
         gsap.to(image, { scale: scale, duration: 0.2 });
@@ -95,6 +111,7 @@ const navbar = {
 
     if (isInitiated == "false") {
       this.handleMenuClick();
+      this.handleUnderlayClick();
       this.cardsOnHover();
       this.navbarEl.setAttribute("data-navbar-is-initiated", true);
       isInitiated = "true";
