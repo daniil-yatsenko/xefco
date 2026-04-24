@@ -11,6 +11,13 @@ const expandableBlockInit = (page = document) => {
     const button = page.querySelector(
       `[data-expandable-block-button="${blockId}"]`,
     );
+    const buttonHorizontalLine = button.querySelector(
+      ".au-button_svg-wrapper.is-horizontal",
+    );
+    const buttonIconVerticalLine = button.querySelector(
+      ".au-button_svg-wrapper.is-vertical",
+    );
+    console.log(buttonHorizontalLine, buttonIconVerticalLine);
     const slides = block.querySelectorAll(".splide__slide");
     const controls = block.querySelectorAll(".extra-block-button");
 
@@ -56,6 +63,25 @@ const expandableBlockInit = (page = document) => {
         },
         "<",
       );
+      collapseTl.to(
+        buttonHorizontalLine,
+        {
+          rotate: 0,
+          ease: "power2.inOut",
+          duration: 0.4,
+        },
+        "<",
+      );
+      collapseTl.to(
+        buttonIconVerticalLine,
+        {
+          scaleY: 1,
+          rotate: 0,
+          ease: "power2.inOut",
+          duration: 0.2,
+        },
+        "<",
+      );
       collapseTl.set(blockWrapper, { display: "none" });
       // Add more collapse animations here later
 
@@ -77,12 +103,38 @@ const expandableBlockInit = (page = document) => {
         height: "0rem",
         overflow: "hidden",
       });
-      expandTl.to(blockWrapper, {
-        height: "auto",
-        opacity: 1,
-        duration: 0.4,
-        ease: "power2.inOut",
-      });
+      expandTl.to(
+        blockWrapper,
+        {
+          height: "auto",
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.inOut",
+        },
+        "<",
+      );
+
+      expandTl.to(
+        buttonHorizontalLine,
+        {
+          rotate: 180,
+          ease: "power2.out",
+          duration: 0.6,
+        },
+        "<",
+      );
+      expandTl.to(
+        buttonIconVerticalLine,
+        {
+          scaleY: 0,
+          rotate: 360,
+          ease: "power2.out",
+          duration: 0.2,
+          delay: 0,
+        },
+        "<",
+      );
+
       expandTl.to(slides, {
         opacity: "",
         scale: 1,

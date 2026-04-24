@@ -4,6 +4,7 @@ import { expandableBlockInit, expandableBlockCleanup } from "./expandableBlock";
 import { contentOnScrollInit, contentOnScrollCleanup } from "./contentOnScroll";
 import { footerImageLinks } from "./footer";
 import { articleImageScaleInit, articleImageScaleCleanup } from "./articles";
+import { solutionToggleInit, solutionToggleCleanup } from "./solutionToggle";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -12,6 +13,7 @@ export const componentsInit = (page = document) => {
   contentOnScrollInit(page);
   footerImageLinks(page);
   articleImageScaleInit(page);
+  solutionToggleInit(page);
   console.log("components init");
 };
 
@@ -22,5 +24,6 @@ export const componentsCleanup = (page = document) => {
   splideCleanup(page);
   contentOnScrollCleanup(page);
   articleImageScaleCleanup(page);
+  solutionToggleCleanup(page);
   console.log("components cleanup");
 };
