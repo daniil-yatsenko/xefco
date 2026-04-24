@@ -17,7 +17,6 @@ const expandableBlockInit = (page = document) => {
     const buttonIconVerticalLine = button.querySelector(
       ".au-button_svg-wrapper.is-vertical",
     );
-    console.log(buttonHorizontalLine, buttonIconVerticalLine);
     const slides = block.querySelectorAll(".splide__slide");
     const controls = block.querySelectorAll(".extra-block-button");
 
@@ -139,7 +138,7 @@ const expandableBlockInit = (page = document) => {
         opacity: "",
         scale: 1,
         duration: 0.4,
-        delay: -0.25,
+        delay: -0.35,
       });
       expandTl.to(controls, { opacity: 1, delay: -0.3 });
       expandTl.set(".splide__track", { overflow: "" });
