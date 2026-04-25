@@ -9,6 +9,11 @@ import {
   comparisonToggleInit,
   comparisonToggleCleanup,
 } from "./comparisonToggle";
+import {
+  auMillsBrandsCardsInit,
+  auMillsBrandsCardsCleanup,
+} from "./auMillsBrandsCards";
+import { auFaqInit, auFaqCleanup } from "./ausoraFAQ";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -19,6 +24,8 @@ export const componentsInit = (page = document) => {
   articleImageScaleInit(page);
   solutionToggleInit(page);
   comparisonToggleInit(page);
+  auMillsBrandsCardsInit(page);
+  auFaqInit(page);
   console.log("components init");
 };
 
@@ -31,5 +38,7 @@ export const componentsCleanup = (page = document) => {
   articleImageScaleCleanup(page);
   solutionToggleCleanup(page);
   comparisonToggleCleanup(page);
+  auMillsBrandsCardsCleanup(page);
+  auFaqCleanup(page);
   console.log("components cleanup");
 };

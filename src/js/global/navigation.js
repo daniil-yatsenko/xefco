@@ -15,12 +15,18 @@ const navbar = {
 
   async openMenu(immediate = false) {
     const tl = gsap.timeline();
+    tl.set(this.underlay, { backdropFilter: "blur(0px)" });
     tl.set(this.underlay, { display: "block" });
     tl.set(this.menuBody, { height: "0rem", overflow: "hidden", opacity: 0 });
     tl.set(this.menuBody, { display: "block" });
     tl.set(this.menuLinks, { opacity: 0, y: "-0.4rem" });
     tl.set(this.menuCards, { opacity: 0, scale: 0.95 });
-    tl.to(this.menuBtnIcons, { y: "-1.125rem", duration: 0.3 });
+
+    if (window.innerWidth < 768) {
+      tl.to(this.underlay, { backdropFilter: "blur(12px)" });
+    }
+
+    tl.to(this.menuBtnIcons, { y: "-1.125rem", duration: 0.3 }, "<");
     tl.to(this.menuIcon, { rotate: 180, ease: "linear", duration: 0.4 }, "<");
     tl.to(
       this.menuBody,
@@ -56,7 +62,6 @@ const navbar = {
   },
   async closeMenu(immediate = false) {
     const tl = gsap.timeline();
-    tl.set(this.underlay, { display: "none" });
     tl.to(this.menuBody, {
       height: "0rem",
       opacity: 0,
@@ -65,6 +70,10 @@ const navbar = {
     });
     tl.to(this.menuIcon, { rotate: 0, ease: "linear", duration: 0.4 }, "<");
     tl.to(this.menuBtnIcons, { y: "", duration: 0.3 }, "<");
+    if (window.innerWidth < 768) {
+      tl.to(this.underlay, { backdropFilter: "blur(0px)", duration: 0.2 }, "<");
+    }
+    tl.set(this.underlay, { display: "none" });
     tl.set(this.menuBody, { height: "auto" });
     tl.set(this.menuBody, { display: "none" });
 
