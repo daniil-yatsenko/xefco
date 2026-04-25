@@ -22,7 +22,7 @@ const splideConfig = {
       },
     },
     perMove: 1,
-    focus: 0,
+    focus: -0,
     trimSpace: false,
     updateOnMove: true,
     padding: {

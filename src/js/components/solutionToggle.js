@@ -11,7 +11,10 @@ const solutionToggleInit = (page = document) => {
 
   if (!toggle || !video) return;
 
-  console.log(toggle, video);
+  toggle._solutionToggleState = {
+    abortController: new AbortController(),
+    videoEmbed,
+  };
 
   setTimeout(() => {
     video.pause();
@@ -39,17 +42,37 @@ const solutionToggleInit = (page = document) => {
     ease: "power2.inOut",
   });
 
-  toggle.addEventListener("change", () => {
-    if (toggle.checked) {
-      pauseTl.pause();
-      playTl.restart();
-    } else {
-      playTl.pause();
-      pauseTl.restart();
-    }
-  });
+  toggle.addEventListener(
+    "change",
+    () => {
+      if (toggle.checked) {
+        pauseTl.pause();
+        playTl.restart();
+      } else {
+        playTl.pause();
+        pauseTl.restart();
+      }
+    },
+    { signal: toggle._solutionToggleState.abortController.signal },
+  );
 };
 
-const solutionToggleCleanup = (page = document) => {};
+const solutionToggleCleanup = (page = document) => {
+  const toggleEmbed = page.querySelector("#au-solution-toggle");
+
+  if (!toggleEmbed) return;
+
+  const toggle = toggleEmbed.querySelector("input");
+
+  if (!toggle || !toggle._solutionToggleState) return;
+
+  const { abortController, videoEmbed } = toggle._solutionToggleState;
+
+  abortController.abort();
+  gsap.killTweensOf(videoEmbed);
+  gsap.set(videoEmbed, { clearProps: "filter" });
+
+  delete toggle._solutionToggleState;
+};
 
 export { solutionToggleInit, solutionToggleCleanup };

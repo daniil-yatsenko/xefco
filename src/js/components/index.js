@@ -5,6 +5,10 @@ import { contentOnScrollInit, contentOnScrollCleanup } from "./contentOnScroll";
 import { footerImageLinks } from "./footer";
 import { articleImageScaleInit, articleImageScaleCleanup } from "./articles";
 import { solutionToggleInit, solutionToggleCleanup } from "./solutionToggle";
+import {
+  comparisonToggleInit,
+  comparisonToggleCleanup,
+} from "./comparisonToggle";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -14,6 +18,7 @@ export const componentsInit = (page = document) => {
   footerImageLinks(page);
   articleImageScaleInit(page);
   solutionToggleInit(page);
+  comparisonToggleInit(page);
   console.log("components init");
 };
 
@@ -25,5 +30,6 @@ export const componentsCleanup = (page = document) => {
   contentOnScrollCleanup(page);
   articleImageScaleCleanup(page);
   solutionToggleCleanup(page);
+  comparisonToggleCleanup(page);
   console.log("components cleanup");
 };
