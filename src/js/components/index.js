@@ -1,19 +1,31 @@
-import { cursorIconInit, cursorIconCleanup } from "./cursorIcon";
-import { splideInit, splideCleanup } from "./splide";
-import { expandableBlockInit, expandableBlockCleanup } from "./expandableBlock";
-import { contentOnScrollInit, contentOnScrollCleanup } from "./contentOnScroll";
-import { footerImageLinks } from "./footer";
-import { articleImageScaleInit, articleImageScaleCleanup } from "./articles";
-import { solutionToggleInit, solutionToggleCleanup } from "./solutionToggle";
+import { cursorIconInit, cursorIconCleanup } from "./Xefco/cursorIcon";
+import { splideInit, splideCleanup } from "./Global/splide";
+import {
+  expandableBlockInit,
+  expandableBlockCleanup,
+} from "./Ausora/expandableBlock";
+import {
+  contentOnScrollInit,
+  contentOnScrollCleanup,
+} from "./Global/contentOnScroll";
+import { footerImageLinks } from "./Global/footer";
+import {
+  articleImageScaleInit,
+  articleImageScaleCleanup,
+} from "./Global/articles";
+import {
+  solutionToggleInit,
+  solutionToggleCleanup,
+} from "./Ausora/solutionToggle";
 import {
   comparisonToggleInit,
   comparisonToggleCleanup,
-} from "./comparisonToggle";
+} from "./Ausora/comparisonToggle";
 import {
   auMillsBrandsCardsInit,
   auMillsBrandsCardsCleanup,
-} from "./auMillsBrandsCards";
-import { auFaqInit, auFaqCleanup } from "./ausoraFAQ";
+} from "./Ausora/auMillsBrandsCards";
+import { auFaqInit, auFaqCleanup } from "./Ausora/ausoraFAQ";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);

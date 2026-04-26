@@ -1,8 +1,8 @@
 import { gsap } from "gsap";
-import { IMG_SCALE } from "../global/defaults";
+import { IMG_SCALE } from "../../global/defaults";
 
-const auMillsBrandsCardsInit = (page = document) => {
-  const links = page.querySelectorAll(".au-mills-brands_card");
+const articleImageScaleInit = (page = document) => {
+  const links = page.querySelectorAll(".article_wrapper");
 
   links.forEach((link) => {
     const image = link.querySelector("img");
@@ -32,8 +32,8 @@ const auMillsBrandsCardsInit = (page = document) => {
   });
 };
 
-const auMillsBrandsCardsCleanup = (page = document) => {
-  const links = page.querySelectorAll(".au-mills-brands_card");
+const articleImageScaleCleanup = (page = document) => {
+  const links = page.querySelectorAll(".article_wrapper");
 
   links.forEach((link) => {
     const image = link.querySelector("img");
@@ -49,4 +49,4 @@ const auMillsBrandsCardsCleanup = (page = document) => {
   });
 };
 
-export { auMillsBrandsCardsInit, auMillsBrandsCardsCleanup };
+export { articleImageScaleInit, articleImageScaleCleanup };

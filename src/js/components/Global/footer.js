@@ -1,5 +1,5 @@
 import { gsap } from "gsap";
-import { IMG_SCALE } from "../global/defaults";
+import { IMG_SCALE } from "../../global/defaults";
 
 const footerImageLinks = (page = document) => {
   const links = page.querySelectorAll(".footer_subbrand-link");

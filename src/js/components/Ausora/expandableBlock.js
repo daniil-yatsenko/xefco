@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { lenisMain } from "../global/globalInit";
+import { lenisMain } from "../../global/globalInit";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
 const expandableBlockInit = (page = document) => {
