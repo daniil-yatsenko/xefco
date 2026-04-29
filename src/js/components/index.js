@@ -5,7 +5,7 @@ import {
   expandableBlockCleanup,
 } from "./Ausora/expandableBlock";
 
-import { footerImageLinks } from "./Global/footer";
+import { footerImageLinks, footerYear } from "./Global/footer";
 import {
   articleImageScaleInit,
   articleImageScaleCleanup,
@@ -30,6 +30,7 @@ export const componentsInit = (page = document) => {
   splideInit(page);
   expandableBlockInit(page);
   footerImageLinks(page);
+  footerYear(page);
   articleImageScaleInit(page);
   solutionToggleInit(page);
   comparisonToggleInit(page);

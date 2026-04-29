@@ -46,7 +46,7 @@ const processFadeOut = (index, diagram) => {
     process = processes[index];
   }
 
-  tl.to(process, { color: greyColor, duration: 0.2, ease: "power2.out" });
+  tl.to(process, { color: "black", duration: 0.2, ease: "power2.out" }); // changed to black for release to disable color change
   tl.to(caption, { opacity: 0, duration: 0.2, ease: "power2.out" }, "<");
   tl.to(heading, { color: greyColor, duration: 0.2, ease: "power2.out" }, "<");
 };

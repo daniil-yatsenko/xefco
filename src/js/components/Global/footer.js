@@ -20,4 +20,13 @@ const footerImageLinks = (page = document) => {
   });
 };
 
-export { footerImageLinks };
+const footerYear = (page = document) => {
+  const yearSpan = document.querySelector("[data-footer-year]");
+
+  if (!yearSpan) return;
+
+  const currentYear = new Date().getFullYear();
+  yearSpan.textContent = currentYear;
+};
+
+export { footerImageLinks, footerYear };
