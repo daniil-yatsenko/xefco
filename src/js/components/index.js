@@ -37,7 +37,7 @@ export const componentsInit = (page = document) => {
   auMillsBrandsCardsInit(page);
   auFaqInit(page);
   processInit(page);
-  console.log("components init");
+  // console.log("components init");
 };
 
 // needed only with Barba.js
@@ -51,5 +51,5 @@ export const componentsCleanup = (page = document) => {
   auMillsBrandsCardsCleanup(page);
   auFaqCleanup(page);
   processCleanup(page);
-  console.log("components cleanup");
+  // console.log("components cleanup");
 };
