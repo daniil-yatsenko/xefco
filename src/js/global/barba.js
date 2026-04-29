@@ -27,7 +27,7 @@ export function initBarba() {
           return tl;
         },
         afterLeave(data) {
-          console.log("after leave");
+          // console.log("after leave");
           componentsCleanup(data.current.container);
           lenisMain.scrollTo(0, { immediate: true });
         },
