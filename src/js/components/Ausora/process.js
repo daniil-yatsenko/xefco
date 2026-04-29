@@ -114,6 +114,8 @@ const processInit = (page) => {
   }
 };
 
-const processCleanup = (page) => {};
+const processCleanup = (page) => {
+  // add cleanup logic here
+};
 
 export { processInit, processCleanup };
