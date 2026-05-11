@@ -11,6 +11,10 @@ const navbar = {
   menuLinks: document.querySelectorAll(".navbar_body_link"),
   menuCards: document.querySelectorAll(".navbar_body_brand-card-wrapper"),
   underlay: document.querySelector(".navbar_underlay"),
+  logoWrapper: document.querySelector(".navbar_header_logo"),
+  xeLogo: document.querySelector(".navbar_header_logo-xefco"),
+  auLogo: document.querySelector(".navbar_header_logo-ausora"),
+  xrLogo: document.querySelector(".navbar_header_logo-xreflex"),
   isMenuOpen: false,
 
   async openMenu(immediate = false) {
@@ -114,6 +118,22 @@ const navbar = {
         gsap.to(image, { scale: scale, duration: 0.2 });
       });
     });
+  },
+  updateLogo(logo = "xe") {
+    const xeLogo = this.xeLogo;
+    const auLogo = this.auLogo;
+    const xrLogo = this.xrLogo;
+    gsap.set([xeLogo, auLogo, xrLogo], { display: "none", opacity: 0 });
+
+    if (logo === "xe") {
+      gsap.to(xeLogo, { display: "flex", opacity: 1, duration: 0.4 });
+    } else if (logo === "au") {
+      gsap.to(auLogo, { display: "flex", opacity: 1, duration: 0.4 });
+    } else if (logo === "xr") {
+      gsap.to(xrLogo, { display: "flex", opacity: 1, duration: 0.4 });
+    } else {
+      gsap.to(xeLogo, { display: "flex", opacity: 1, duration: 0.4 });
+    }
   },
   init() {
     let isInitiated = this.navbarEl.getAttribute("data-navbar-is-initiated");

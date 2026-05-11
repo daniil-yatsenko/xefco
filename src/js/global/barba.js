@@ -12,6 +12,16 @@ export function initBarba() {
     transitions: [
       {
         name: "default-transition",
+        once(data) {
+          // Update logo in the navbar based on brand
+          const url = data.next.url.path;
+          const logo = url.includes("ausora")
+            ? "au"
+            : url.includes("xreflex")
+              ? "xr"
+              : "xe";
+          navbar.updateLogo(logo);
+        },
         async leave(data) {
           // Close menu first, wait for animation to complete
           await navbar.closeMenu();
@@ -33,6 +43,15 @@ export function initBarba() {
         },
         enter(data) {
           componentsInit(data.next.container);
+
+          // Update logo in the navbar based on brand
+          const url = data.next.url.path;
+          const logo = url.includes("ausora")
+            ? "au"
+            : url.includes("xreflex")
+              ? "xr"
+              : "xe";
+          navbar.updateLogo(logo);
 
           // Animate in
           return new Promise((resolve) => {
