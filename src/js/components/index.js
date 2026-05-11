@@ -24,6 +24,7 @@ import {
 } from "./Ausora/auMillsBrandsCards";
 import { auFaqInit, auFaqCleanup } from "./Ausora/ausoraFAQ";
 import { processInit, processCleanup } from "./Ausora/process";
+import { bannerInit, bannerCleanup } from "./Ausora/banner";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -37,6 +38,7 @@ export const componentsInit = (page = document) => {
   auMillsBrandsCardsInit(page);
   auFaqInit(page);
   processInit(page);
+  bannerInit(page);
   // console.log("components init");
 };
 
@@ -51,5 +53,6 @@ export const componentsCleanup = (page = document) => {
   auMillsBrandsCardsCleanup(page);
   auFaqCleanup(page);
   processCleanup(page);
+  bannerCleanup(page);
   // console.log("components cleanup");
 };

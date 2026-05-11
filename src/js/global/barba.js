@@ -64,8 +64,10 @@ export function initBarba() {
           });
         },
         afterEnter() {
-          lenisMain.resize();
-          ScrollTrigger.refresh();
+          setTimeout(() => {
+            lenisMain.resize();
+            ScrollTrigger.refresh();
+          }, 50);
         },
       },
     ],
