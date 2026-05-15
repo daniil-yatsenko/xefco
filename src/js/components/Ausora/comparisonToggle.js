@@ -14,16 +14,22 @@ const comparisonToggleInit = (page = document) => {
   const conventionalWrapper = page.querySelector(
     "[data-animation-comparison-conventional]",
   );
-  const conventional = conventionalWrapper.children[0].children;
-  const conventionalFilledPaths =
-    conventionalWrapper.querySelectorAll("path[fill]");
+
+  const conventional = conventionalWrapper
+    ? conventionalWrapper.children[0].children
+    : null;
+  const conventionalFilledPaths = conventionalWrapper
+    ? conventionalWrapper.querySelectorAll("path[fill]")
+    : null;
   const ausoraWrapper = page.querySelector(
     "[data-animation-comparison-ausora]",
   );
-  const ausora = ausoraWrapper.children[0].children;
-  const grid = page.querySelector("[data-animation-comparison-grid");
-
+  const ausora = ausoraWrapper ? ausoraWrapper.children[0].children : null;
+  const grid = page.querySelector("[data-animation-comparison-grid]");
   gsap.registerPlugin(TextPlugin, DrawSVGPlugin, ScrollTrigger);
+
+  const abortController = new AbortController();
+  const { signal } = abortController;
 
   const textTl = gsap.timeline({ paused: true });
   const svgTl = gsap.timeline({ paused: true });
@@ -72,21 +78,29 @@ const comparisonToggleInit = (page = document) => {
     );
   });
 
-  toggle.addEventListener("change", () => {
-    if (toggle.checked) {
-      textTl.restart();
-      svgTl.restart();
-    } else {
-      svgTl.reverse();
-      textTl.reverse();
-    }
-  });
+  toggle.addEventListener(
+    "change",
+    () => {
+      if (toggle.checked) {
+        textTl.restart();
+        svgTl.restart();
+      } else {
+        svgTl.reverse();
+        textTl.reverse();
+      }
+    },
+    { signal },
+  );
+
+  comparisonEmbed._state = { abortController, scrollTrigger: null };
 
   if (!grid) return;
 
+  const triggerStart = window.innerWidth > 480 ? "bottom 92%" : "bottom 99%";
+
   const scrollTrigger = ScrollTrigger.create({
     trigger: grid,
-    start: "bottom 92%",
+    start: triggerStart,
     onToggle: ({ isActive }) => {
       if (isActive) {
         toggle.checked = true;
@@ -100,11 +114,27 @@ const comparisonToggleInit = (page = document) => {
     },
   });
 
-  toggle.addEventListener("click", () => {
-    scrollTrigger.kill();
-  });
+  comparisonEmbed._state.scrollTrigger = scrollTrigger;
+
+  toggle.addEventListener(
+    "click",
+    () => {
+      scrollTrigger.kill();
+    },
+    { signal },
+  );
 };
 
-const comparisonToggleCleanup = (page = document) => {};
+const comparisonToggleCleanup = (page = document) => {
+  const comparisonEmbed = page.querySelector("#au-comparison-toggle");
+  if (!comparisonEmbed || !comparisonEmbed._state) return;
+
+  const { abortController, scrollTrigger } = comparisonEmbed._state;
+
+  abortController.abort();
+  scrollTrigger?.kill();
+
+  delete comparisonEmbed._state;
+};
 
 export { comparisonToggleInit, comparisonToggleCleanup };
