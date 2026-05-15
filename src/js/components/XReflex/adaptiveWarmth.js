@@ -62,7 +62,6 @@ const adaptiveWarmthInit = (page = document) => {
       start: "top top",
       end: "bottom bottom",
       scrub: true,
-      markers: true,
     },
     duration: 100, // used as scrub percentage
   });

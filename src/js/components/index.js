@@ -29,6 +29,7 @@ import {
   adaptiveWarmthInit,
   adaptiveWarmthCleanup,
 } from "./XReflex/adaptiveWarmth";
+import { bottomNavInit, bottomNavCleanup } from "./Global/bottomNav";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -44,6 +45,7 @@ export const componentsInit = (page = document) => {
   processInit(page);
   bannerInit(page);
   adaptiveWarmthInit(page);
+  bottomNavInit(page);
   // console.log("components init");
 };
 
@@ -60,5 +62,6 @@ export const componentsCleanup = (page = document) => {
   processCleanup(page);
   bannerCleanup(page);
   adaptiveWarmthCleanup(page);
+  bottomNavCleanup(page);
   // console.log("components cleanup");
 };
