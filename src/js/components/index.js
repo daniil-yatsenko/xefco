@@ -25,6 +25,10 @@ import {
 import { auFaqInit, auFaqCleanup } from "./Ausora/ausoraFAQ";
 import { processInit, processCleanup } from "./Ausora/process";
 import { bannerInit, bannerCleanup } from "./Ausora/banner";
+import {
+  adaptiveWarmthInit,
+  adaptiveWarmthCleanup,
+} from "./XReflex/adaptiveWarmth";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -39,6 +43,7 @@ export const componentsInit = (page = document) => {
   auFaqInit(page);
   processInit(page);
   bannerInit(page);
+  adaptiveWarmthInit(page);
   // console.log("components init");
 };
 
@@ -54,5 +59,6 @@ export const componentsCleanup = (page = document) => {
   auFaqCleanup(page);
   processCleanup(page);
   bannerCleanup(page);
+  adaptiveWarmthCleanup(page);
   // console.log("components cleanup");
 };

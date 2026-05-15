@@ -1,22 +1,63 @@
 import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const comparisonToggleInit = (page = document) => {
   const comparisonEmbed = page.querySelector("#au-comparison-toggle");
-  const dataElements = page.querySelectorAll("[data-comparison-new-value]");
-  const image = page.querySelector("[data-comparison-image]");
   if (!comparisonEmbed) return;
 
   const toggle = comparisonEmbed.querySelector("input");
   if (!toggle) return;
 
-  const tl = gsap.timeline({ paused: true });
-  gsap.registerPlugin(TextPlugin);
-  gsap.set(image, { opacity: 0 });
+  const dataElements = page.querySelectorAll("[data-comparison-new-value]");
+  const conventionalWrapper = page.querySelector(
+    "[data-animation-comparison-conventional]",
+  );
+  const conventional = conventionalWrapper.children[0].children;
+  const conventionalFilledPaths =
+    conventionalWrapper.querySelectorAll("path[fill]");
+  const ausoraWrapper = page.querySelector(
+    "[data-animation-comparison-ausora]",
+  );
+  const ausora = ausoraWrapper.children[0].children;
+  const grid = page.querySelector("[data-animation-comparison-grid");
+
+  gsap.registerPlugin(TextPlugin, DrawSVGPlugin, ScrollTrigger);
+
+  const textTl = gsap.timeline({ paused: true });
+  const svgTl = gsap.timeline({ paused: true });
+
+  gsap.set(ausora, { drawSVG: "0%", display: "flex" });
+  gsap.set(ausoraWrapper, { display: "flex" });
+
+  svgTl.to(conventionalFilledPaths, {
+    fill: "transparent",
+    duration: 0.4,
+    ease: "linear",
+  });
+  svgTl.to(
+    conventional,
+    {
+      drawSVG: "0%",
+      duration: 0.4,
+      ease: "linear",
+    },
+    "<",
+  );
+  svgTl.to(ausora, {
+    drawSVG: "100%",
+    duration: 0.4,
+    ease: "linear",
+    delay: -0.1,
+  });
+
+  // play on load so the consequent plays are smooth (as alternative to will-change)
+  svgTl.play().then(() => svgTl.reverse());
 
   dataElements.forEach((element) => {
     const text = element.getAttribute("data-comparison-new-value");
-    tl.to(
+    textTl.to(
       element,
       {
         duration: element.textContent.length * 0.1,
@@ -29,15 +70,38 @@ const comparisonToggleInit = (page = document) => {
       },
       "<",
     );
-    tl.to(image, { opacity: 1, duration: 0.4, ease: "power2.inOut" }, "<");
   });
 
   toggle.addEventListener("change", () => {
     if (toggle.checked) {
-      tl.restart();
+      textTl.restart();
+      svgTl.restart();
     } else {
-      tl.reverse();
+      svgTl.reverse();
+      textTl.reverse();
     }
+  });
+
+  if (!grid) return;
+
+  const scrollTrigger = ScrollTrigger.create({
+    trigger: grid,
+    start: "bottom 92%",
+    onToggle: ({ isActive }) => {
+      if (isActive) {
+        toggle.checked = true;
+        textTl.restart();
+        svgTl.restart();
+      } else {
+        toggle.checked = false;
+        svgTl.reverse();
+        textTl.reverse();
+      }
+    },
+  });
+
+  toggle.addEventListener("click", () => {
+    scrollTrigger.kill();
   });
 };
 
