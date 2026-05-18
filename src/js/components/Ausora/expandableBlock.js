@@ -29,16 +29,6 @@ const expandableBlockInit = (page = document) => {
       abortController: new AbortController(),
     };
 
-    // Initially hide the block
-    gsap.set(blockWrapper, {
-      display: "none",
-      delay: 0.1,
-      onComplete: () => {
-        lenisMain.resize();
-        ScrollTrigger.refresh();
-      },
-    });
-
     const collapse = () => {
       const state = button._expandableBlockState;
 
@@ -81,12 +71,15 @@ const expandableBlockInit = (page = document) => {
         },
         "<",
       );
-      collapseTl.set(blockWrapper, { display: "none" });
-      // Add more collapse animations here later
+      collapseTl.set(blockWrapper, {
+        display: "none",
+        onComplete: () => {
+          lenisMain.resize();
+          ScrollTrigger.refresh();
+        },
+      });
 
       state.isExpanded = false;
-      lenisMain.resize();
-      ScrollTrigger.refresh();
     };
 
     const expand = () => {
@@ -141,13 +134,17 @@ const expandableBlockInit = (page = document) => {
         delay: -0.35,
       });
       expandTl.to(controls, { opacity: 1, delay: -0.3 });
-      expandTl.set(".splide__track", { overflow: "" });
+      expandTl.set(".splide__track", {
+        overflow: "",
+        onComplete: () => {
+          lenisMain.resize();
+          ScrollTrigger.refresh();
+        },
+      });
 
       // Add more expand animations here later
 
       state.isExpanded = true;
-      lenisMain.resize();
-      ScrollTrigger.refresh();
     };
 
     // Toggle click handler
@@ -176,6 +173,11 @@ const expandableBlockInit = (page = document) => {
         signal: button._expandableBlockState.abortController.signal,
       });
     }
+
+    // initially hide the block
+    setTimeout(() => {
+      collapse();
+    }, 10);
   });
 
   lenisMain.resize();

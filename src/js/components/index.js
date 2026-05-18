@@ -30,6 +30,12 @@ import {
   adaptiveWarmthCleanup,
 } from "./XReflex/adaptiveWarmth";
 import { bottomNavInit, bottomNavCleanup } from "./Global/bottomNav";
+import { productCardsInit, productCardsCleanup } from "./XReflex/products";
+import {
+  xrMillsBrandsCardsInit,
+  xrMillsBrandsCardsCleanup,
+} from "./XReflex/XrMillsBrandsCards";
+import { testimonialInit, testimonialCleanUp } from "./XReflex/testimonial";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -46,6 +52,9 @@ export const componentsInit = (page = document) => {
   bannerInit(page);
   adaptiveWarmthInit(page);
   bottomNavInit(page);
+  productCardsInit(page);
+  xrMillsBrandsCardsInit(page);
+  testimonialInit(page);
   // console.log("components init");
 };
 
@@ -63,5 +72,8 @@ export const componentsCleanup = (page = document) => {
   bannerCleanup(page);
   adaptiveWarmthCleanup(page);
   bottomNavCleanup(page);
+  productCardsCleanup(page);
+  xrMillsBrandsCardsCleanup(page);
+  testimonialCleanUp(page);
   // console.log("components cleanup");
 };
