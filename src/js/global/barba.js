@@ -5,6 +5,7 @@ import { lenisMain } from "./globalInit.js";
 import { navbar } from "./navigation.js";
 import { componentsInit, componentsCleanup } from "../components/index.js";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { passwordInit } from "../pages/password";
 
 export function initBarba() {
   barba.init({
@@ -81,7 +82,12 @@ export function initBarba() {
           homeCleanup();
         },
       },
-      // Add more views for other pages here
+      {
+        namespace: "password",
+        beforeEnter(data) {
+          passwordInit(data.next.container);
+        },
+      },
     ],
   });
 }

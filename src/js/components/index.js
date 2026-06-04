@@ -36,6 +36,9 @@ import {
   xrMillsBrandsCardsCleanup,
 } from "./XReflex/XrMillsBrandsCards";
 import { testimonialInit, testimonialCleanUp } from "./XReflex/testimonial";
+import { usecasesInit, usecasesCleanup } from "./XReflex/usecases";
+import { howItWorksInit, howItWorksCleanup } from "./XReflex/howItWorks";
+import { stackInit, stackCleanup } from "./XReflex/stack";
 
 export const componentsInit = (page = document) => {
   cursorIconInit(page);
@@ -55,6 +58,9 @@ export const componentsInit = (page = document) => {
   productCardsInit(page);
   xrMillsBrandsCardsInit(page);
   testimonialInit(page);
+  usecasesInit(page);
+  howItWorksInit(page);
+  stackInit(page);
   // console.log("components init");
 };
 
@@ -75,5 +81,8 @@ export const componentsCleanup = (page = document) => {
   productCardsCleanup(page);
   xrMillsBrandsCardsCleanup(page);
   testimonialCleanUp(page);
+  usecasesCleanup(page);
+  howItWorksCleanup(page);
+  stackCleanup(page);
   // console.log("components cleanup");
 };

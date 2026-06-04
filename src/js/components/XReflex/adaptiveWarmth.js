@@ -6,6 +6,7 @@ const adaptiveWarmthInit = (page = document) => {
   const section = page.querySelector("[data-animation-adaptive-warmth]");
   if (!section) return;
 
+  // vars used for animations
   const textCopy = {
     caption1: "XReflex Standard",
     caption2: "XReflex Perform",
@@ -13,6 +14,12 @@ const adaptiveWarmthInit = (page = document) => {
     num1: "001",
     num2: "002",
     num3: "003",
+  };
+  const percentageAnimations = {
+    opacity: 0.75,
+    scale: 0.98,
+    duration: 0.15,
+    ease: "power2.inOut",
   };
 
   const track = section.querySelector("[data-animation-track]");
@@ -38,6 +45,7 @@ const adaptiveWarmthInit = (page = document) => {
   const percentageValue = section.querySelector(
     "[data-animation-percentage-value]",
   );
+  const percentageBlock = percentageValue.parentNode;
 
   if (!track) return;
   if (!visual) return;
@@ -56,6 +64,7 @@ const adaptiveWarmthInit = (page = document) => {
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(TextPlugin);
 
+  // gradient and horizontal line indicator scrubbing to scroll.
   const scrubTl = gsap.timeline({
     scrollTrigger: {
       trigger: track,
@@ -104,8 +113,11 @@ const adaptiveWarmthInit = (page = document) => {
     5,
   );
 
+  // keyframes for updating images / captions / etc
   const update1Tl = gsap.timeline({ paused: true });
   const update2Tl = gsap.timeline({ paused: true });
+
+  gsap.set(percentageBlock, { ...percentageAnimations });
   gsap.set(caption, { text: textCopy.caption1 });
 
   update1Tl.to(caption, {
@@ -117,6 +129,16 @@ const adaptiveWarmthInit = (page = document) => {
       ease: "linear",
     },
   });
+  update1Tl.to(
+    percentageBlock,
+    {
+      opacity: 1,
+      scale: 1,
+      ease: percentageAnimations.ease,
+      duration: percentageAnimations.duration,
+    },
+    "<",
+  );
   update1Tl.to(
     num,
     {
@@ -139,6 +161,7 @@ const adaptiveWarmthInit = (page = document) => {
     },
     "<",
   );
+  update1Tl.to(percentageBlock, { ...percentageAnimations });
 
   update2Tl.to(caption, {
     duration: caption.textContent.length * 0.02,
@@ -149,6 +172,16 @@ const adaptiveWarmthInit = (page = document) => {
       ease: "linear",
     },
   });
+  update2Tl.to(
+    percentageBlock,
+    {
+      opacity: 1,
+      scale: 1,
+      ease: percentageAnimations.ease,
+      duration: percentageAnimations.duration,
+    },
+    "<",
+  );
   update2Tl.to(
     num,
     {
@@ -171,7 +204,9 @@ const adaptiveWarmthInit = (page = document) => {
     },
     "<",
   );
+  update2Tl.to(percentageBlock, { ...percentageAnimations });
 
+  // trigger to run updateTl
   const updateTrigger1 = ScrollTrigger.create({
     trigger: track,
     start: "50% center",
@@ -183,6 +218,7 @@ const adaptiveWarmthInit = (page = document) => {
     },
   });
 
+  // trigger to run updateTl
   const updateTrigger2 = ScrollTrigger.create({
     trigger: track,
     start: "75% center",
@@ -194,10 +230,11 @@ const adaptiveWarmthInit = (page = document) => {
     },
   });
 
+  // percentage value min
   const valueObj = { value: 15 };
 
   gsap.to(valueObj, {
-    value: 50,
+    value: 50, // percentage value max
     ease: "linear",
     scrollTrigger: {
       trigger: track,
@@ -211,6 +248,8 @@ const adaptiveWarmthInit = (page = document) => {
   });
 };
 
-const adaptiveWarmthCleanup = (page = document) => {};
+const adaptiveWarmthCleanup = (page = document) => {
+  ScrollTrigger.killAll();
+};
 
 export { adaptiveWarmthInit, adaptiveWarmthCleanup };
