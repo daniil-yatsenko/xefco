@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const instances = new Map();
 
@@ -36,6 +37,7 @@ const createObj = (section) => {
           ".xr-overview_how-it-works_video-wrapper",
         );
 
+        // handle button clicks
         buttons.forEach((button, index) => {
           const handler = () => {
             buttons.forEach((b) => b.classList.remove("is-secondary"));
@@ -47,17 +49,39 @@ const createObj = (section) => {
           this.listeners.push({ el: button, event: "click", handler });
         });
 
-        const tabBtnHandler = () => {
+        // handler used below
+        const videoRestartHandler = () => {
           this.restartVideo(videos, this.activeVideoIndex(buttons));
         };
-        this.tabBtns[tabIndex].addEventListener("click", tabBtnHandler);
-        this.listeners.push({ el: this.tabBtns[tabIndex], event: "click", handler: tabBtnHandler });
 
-        const videoWrapperHandler = () => {
-          this.restartVideo(videos, this.activeVideoIndex(buttons));
-        };
-        videoWrapper.addEventListener("click", videoWrapperHandler);
-        this.listeners.push({ el: videoWrapper, event: "click", handler: videoWrapperHandler });
+        // restart video on tab click
+        this.tabBtns[tabIndex].addEventListener("click", videoRestartHandler);
+        this.listeners.push({
+          el: this.tabBtns[tabIndex],
+          event: "click",
+          handler: videoRestartHandler,
+        });
+
+        // restart video on video click
+        videoWrapper.addEventListener("click", videoRestartHandler);
+        this.listeners.push({
+          el: videoWrapper,
+          event: "click",
+          handler: videoRestartHandler,
+        });
+
+        // restart video on scrollTrigger
+        ScrollTrigger.create({
+          trigger: tab.parentNode,
+          start: "10% bottom",
+          end: "bottom top",
+          onEnter: () => {
+            videoRestartHandler();
+          },
+          onEnterBack: () => {
+            videoRestartHandler();
+          },
+        });
       });
     },
 
@@ -66,6 +90,7 @@ const createObj = (section) => {
         el.removeEventListener(event, handler);
       });
       this.listeners = [];
+      ScrollTrigger.killAll();
     },
   };
   return obj;

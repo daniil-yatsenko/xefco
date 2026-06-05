@@ -52,7 +52,6 @@ const stackInit = (page = document) => {
       ".xr-stack_slide-content_updated-text-wrapper",
     );
     const captions = textContentWrapper.querySelectorAll(".xr_caption");
-    console.log(captions);
     const paragraphs = textContentWrapper.querySelectorAll("p");
     const textContent = {
       captions: {
@@ -104,6 +103,8 @@ const stackInit = (page = document) => {
   });
 };
 
-const stackCleanup = (page = document) => {};
+const stackCleanup = (page = document) => {
+  ScrollTrigger.killAll();
+};
 
 export { stackInit, stackCleanup };
