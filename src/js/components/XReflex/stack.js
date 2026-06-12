@@ -25,7 +25,7 @@ const updateParagraph = (paragraph, value) => {
 };
 
 const stackInit = (page = document) => {
-  const stacks = page.querySelectorAll(".section_xr-stack-v2");
+  const stacks = page.querySelectorAll(".xr-stack_wrapper-v2");
 
   stacks.forEach((stack) => {
     const triggers = stack.querySelectorAll(".xr-stack_trigger");
