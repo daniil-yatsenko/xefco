@@ -15,6 +15,10 @@ const comparisonToggleInit = (page = document) => {
     "[data-animation-comparison-conventional]",
   );
 
+  const headingWrapper = page.querySelector(".au-comparison_toggle-heading");
+  const heading = headingWrapper ? headingWrapper.children[0] : null;
+  const updatedHeading = headingWrapper ? headingWrapper.children[1] : null;
+
   const conventional = conventionalWrapper
     ? conventionalWrapper.children[0].children
     : null;
@@ -77,6 +81,20 @@ const comparisonToggleInit = (page = document) => {
       "<",
     );
   });
+
+  textTl.to(
+    heading,
+    {
+      duration: 0.3,
+      text: {
+        value: updatedHeading.textContent,
+        rtl: true,
+        type: "diff",
+        ease: "linear",
+      },
+    },
+    "<",
+  );
 
   toggle.addEventListener(
     "change",
