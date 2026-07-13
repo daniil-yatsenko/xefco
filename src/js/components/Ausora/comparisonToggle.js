@@ -2,6 +2,7 @@ import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { lenisMain} from "../../global/globalInit"
 
 const comparisonToggleInit = (page = document) => {
   const comparisonEmbed = page.querySelector("#au-comparison-toggle");
@@ -30,6 +31,15 @@ const comparisonToggleInit = (page = document) => {
   );
   const ausora = ausoraWrapper ? ausoraWrapper.children[0].children : null;
   const grid = page.querySelector("[data-animation-comparison-grid]");
+
+  if (!grid) return;
+
+  // freeze cell width so data update doesn't resize them
+  Array.from(grid.children).forEach((cell) => {
+    const width = cell.offsetWidth;
+    gsap.set(cell, { width });
+  });
+
   gsap.registerPlugin(TextPlugin, DrawSVGPlugin, ScrollTrigger);
 
   const abortController = new AbortController();
@@ -114,21 +124,30 @@ const comparisonToggleInit = (page = document) => {
 
   if (!grid) return;
 
-  const triggerStart = window.innerWidth > 480 ? "bottom 92%" : "bottom 99%";
+  // center grid for scroll trigger depending on viewport size
+  const desktopStart = (window.innerHeight + 80) / 2;
+  const triggerStart = window.innerWidth > 480 ? `center ${desktopStart}px` : "bottom 99%";
 
   const scrollTrigger = ScrollTrigger.create({
     trigger: grid,
     start: triggerStart,
-    onToggle: ({ isActive }) => {
-      if (isActive) {
-        toggle.checked = true;
-        textTl.restart();
-        svgTl.restart();
-      } else {
-        toggle.checked = false;
-        svgTl.reverse();
-        textTl.reverse();
-      }
+    end: triggerStart,
+    onEnter: () => {
+      toggle.checked = true;
+      lenisMain.stop();
+      textTl.restart();
+      svgTl.restart().then(() => {
+        lenisMain.start();
+      });
+
+    },
+    onLeaveBack: () => {
+      toggle.checked = false;
+      lenisMain.stop();
+      svgTl.reverse();
+      textTl.reverse().then(() => {
+        lenisMain.start();
+      });
     },
   });
 

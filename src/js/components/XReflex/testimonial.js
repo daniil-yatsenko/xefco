@@ -15,7 +15,7 @@ const testimonialInit = (page = document) => {
     );
     const height = testimonialBody.offsetHeight;
     const offset = (window.innerHeight - height) / 2;
-    gsap.set(testimonialBody, { top: offset });
+    gsap.set(testimonialBody, { position: "sticky", top: offset });
 
     const split = new SplitText(bodyText, { type: "words, chars" });
 
