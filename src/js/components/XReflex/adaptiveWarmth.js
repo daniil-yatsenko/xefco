@@ -108,7 +108,7 @@ const adaptiveWarmthInit = (page = document) => {
     {
       top: "25%",
       ease: "linear",
-      duration: 90,
+      duration: 80, //used to be 80; updated as per Olivia's feedback to "lock" the view so the audience doesn't miss 50% callout
     },
     5,
   );
@@ -221,7 +221,7 @@ const adaptiveWarmthInit = (page = document) => {
   // trigger to run updateTl
   const updateTrigger2 = ScrollTrigger.create({
     trigger: track,
-    start: "75% center",
+    start: "73% center", //used to be 75%; updated as per Olivia's feedback to "lock" the view so the audience doesn't miss 50% callout
     onEnter: () => {
       update2Tl.restart();
     },
@@ -239,7 +239,7 @@ const adaptiveWarmthInit = (page = document) => {
     scrollTrigger: {
       trigger: track,
       start: "top top",
-      end: "bottom bottom",
+      end: "90% bottom", // used to be bottom bottom; updated as per Olivia's feedback to "lock" the view so the audience doesn't miss 50% callout
       scrub: true,
     },
     onUpdate: () => {
