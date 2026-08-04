@@ -1,6 +1,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TextPlugin } from "gsap/TextPlugin";
+import { lenisMain} from "../../global/globalInit"
 
 const adaptiveWarmthInit = (page = document) => {
   const section = page.querySelector("[data-animation-adaptive-warmth]");
@@ -108,7 +109,7 @@ const adaptiveWarmthInit = (page = document) => {
     {
       top: "25%",
       ease: "linear",
-      duration: 80, //used to be 80; updated as per Olivia's feedback to "lock" the view so the audience doesn't miss 50% callout
+      duration: 90,
     },
     5,
   );
@@ -221,7 +222,7 @@ const adaptiveWarmthInit = (page = document) => {
   // trigger to run updateTl
   const updateTrigger2 = ScrollTrigger.create({
     trigger: track,
-    start: "73% center", //used to be 75%; updated as per Olivia's feedback to "lock" the view so the audience doesn't miss 50% callout
+    start: "75% center",
     onEnter: () => {
       update2Tl.restart();
     },
@@ -239,12 +240,18 @@ const adaptiveWarmthInit = (page = document) => {
     scrollTrigger: {
       trigger: track,
       start: "top top",
-      end: "90% bottom", // used to be bottom bottom; updated as per Olivia's feedback to "lock" the view so the audience doesn't miss 50% callout
+      end: "bottom bottom",
       scrub: true,
     },
     onUpdate: () => {
       percentageValue.textContent = Math.round(valueObj.value);
     },
+    onComplete: () => {
+      lenisMain.stop();
+      setTimeout(() => {
+        lenisMain.start();
+      }, 500);
+    }
   });
 };
 
